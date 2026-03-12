@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Sistem-Gestionari-Restuarnat/Sistem-Gestionari-Restuarnat.vcxproj" Id="55e3f867-ba5f-464c-85b8-b75f26cebed1" />
+</Solution>
