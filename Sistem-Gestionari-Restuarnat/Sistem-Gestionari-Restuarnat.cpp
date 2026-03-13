@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -19,7 +20,6 @@ public:
     virtual int durata() { return 2; }
 
     virtual int calculeazaPret() = 0;
-
     virtual string tip() = 0;
 
     virtual void afisare() {
@@ -57,7 +57,7 @@ public:
     }
 
     int calculeazaPret() override {
-        int pret = 200; 
+        int pret = 200;
         if (durata_rezervarii > 4)
             pret += (durata_rezervarii - 4) * 50;
         return pret;
@@ -65,7 +65,7 @@ public:
 
     string tip() override { return "RezervareSpecial"; }
 
-    int durata() { return durata_rezervarii; }
+    int durata() override { return durata_rezervarii; }
 };
 
 class RezervareGrupMare : public Rezervare {
@@ -76,12 +76,7 @@ public:
 
     int calculeazaPret() override {
         int pret = 500;
-        if (persoane > 20) {
-            pret += (persoane - 20) * 10; 
-        }
-        if (persoane > 30) {
-            pret = pret * 0.95; 
-        }
+        if (persoane > 20) pret += (persoane - 20) * 10;
         return pret;
     }
 
@@ -103,6 +98,7 @@ public:
 };
 
 int main() {
+    vector<Rezervare*> rezervari;
     int opt;
 
     do {
@@ -115,11 +111,11 @@ int main() {
         cout << "0. Iesire\n";
         cout << "Alege: ";
         cin >> opt;
+        cin.ignore();
 
         if (opt >= 1 && opt <= 4) {
             string nume, data, ora;
             int persoane, durata = 0;
-            cin.ignore();
 
             cout << "Nume client: ";
             getline(cin, nume);
@@ -132,10 +128,12 @@ int main() {
 
             cout << "Persoane: ";
             cin >> persoane;
+            cin.ignore();
 
-            if (opt == 2) { 
+            if (opt == 2) {
                 cout << "Durata (ore): ";
                 cin >> durata;
+                cin.ignore();
             }
 
             Rezervare* r = nullptr;
@@ -146,6 +144,9 @@ int main() {
             else if (opt == 4) r = new RezervareVIP(nume, data, ora, persoane);
 
             if (r) {
+                rezervari.push_back(r);
+
+                
                 ofstream fout("rezervari.txt", ios::app);
                 fout << r->tip() << " "
                     << nume << " "
@@ -155,29 +156,22 @@ int main() {
 
                 if (opt == 2) fout << " " << durata;
 
-                fout << " Pret:" << r->calculeazaPret() << " lei" << endl;
+                fout << " Pret:" << r->calculeazaPret() << "lei" << endl;
                 fout.close();
 
                 cout << "Rezervare salvata! Pret de achitat: " << r->calculeazaPret() << " lei\n";
-
-                delete r;
             }
         }
 
         if (opt == 5) {
-            ifstream fin("rezervari.txt");
-            string linie;
-
             cout << "\n=== Rezervari ===\n";
-
-            while (getline(fin, linie)) {
-                cout << linie << endl; 
-            }
-
-            fin.close();
+            for (Rezervare* rez : rezervari)
+                rez->afisare();
         }
 
     } while (opt != 0);
+
+    for (Rezervare* rez : rezervari) delete rez;
 
     cout << "Program inchis.\n";
     return 0;
