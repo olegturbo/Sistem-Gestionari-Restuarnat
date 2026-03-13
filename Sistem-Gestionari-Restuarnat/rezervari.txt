@@ -1,2 +1,1 @@
-RezervareZilnica Botnari Oleg 12.12.2026 10:00 5 Pret:110lei
-RezervareSpecial Caraman Alex 12.12.2026 12:00 10 5 Pret:250lei
+RezervareZilnica Botnari Oleg 01.12.2026 10:00 20 Pret:410lei

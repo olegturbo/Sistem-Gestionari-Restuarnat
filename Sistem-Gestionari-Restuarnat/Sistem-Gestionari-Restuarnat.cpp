@@ -76,11 +76,18 @@ public:
 
     int calculeazaPret() override {
         int pret = 500;
-        if (persoane > 20) pret += (persoane - 20) * 10;
+        if (persoane > 20) {
+            pret += (persoane - 20) * 10;
+        }
+        if (persoane > 30) {
+            pret = pret * 1;
+        }
         return pret;
     }
 
-    string tip() override { return "RezervareGrupMare"; }
+    string tip() override {
+        return "RezervareGrupMare";
+    }
 };
 
 class RezervareVIP : public Rezervare {
