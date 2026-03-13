@@ -172,8 +172,10 @@ int main() {
 
         if (opt == 5) {
             cout << "\n=== Rezervari ===\n";
-            for (Rezervare* rez : rezervari)
+            for (size_t i = 0; i < rezervari.size(); i++) {
+                Rezervare* rez = rezervari[i];
                 rez->afisare();
+            }
         }
 
     } while (opt != 0);
